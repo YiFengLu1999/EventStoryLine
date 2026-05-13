@@ -149,6 +149,135 @@ eval\_script.py & 批卷老师 & 对照标准答案，计算精确率、召回�
 \caption{XML 的关键不是尖括号，而是“词、事件标注、关系标注”三层。}
 \end{figure}
 
+\section{事件和时间关系怎么标注}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.96\linewidth]{assets_v2/temporal_relation_metaphor.png}
+  \caption{事件标注像圈出动作便签，时间标注像圈出日历便签，\code{TLINK} 像把二者接到时间轴上的线。}
+\end{figure}
+
+可以把时间关系理解成“新闻稿旁边多贴了一条时间轴”。标注时通常分三步：
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{先圈事件}：用 \code{ACTION\_*} 这类标签标出动作或状态，比如“入住”“离开”“宣布”“被捕”。
+  \item \textbf{再圈时间}：用 \code{TIME\_*} 这类标签标出日期、时间段、一天中的时间，比如“2013 年 6 月”“昨天”“90 天”。
+  \item \textbf{最后连关系}：用 \code{TLINK} 说明事件和时间，或者两个事件/两个时间之间的时间关系。
+\end{enumerate}
+
+费曼式地说：\textbf{事件是剧情卡片，时间是日历卡片，\code{TLINK} 是把卡片钉到时间轴上的图钉线。}
+
+\begin{center}
+\begin{tikzpicture}[
+  font=\small,
+  event/.style={draw=blue!50, fill=softblue, rounded corners=3pt, minimum width=34mm, minimum height=10mm, align=center},
+  time/.style={draw=green!60!black, fill=softgreen, rounded corners=3pt, minimum width=34mm, minimum height=10mm, align=center},
+  rel/.style={draw=orange!80!black, fill=softyellow, rounded corners=3pt, minimum width=32mm, minimum height=10mm, align=center},
+  arr/.style={-{Stealth[length=2mm]}, thick}
+]
+\node[time] (t) {时间\\2013 年 6 月};
+\node[rel, right=12mm of t] (r) {\code{TLINK}\\\code{CONTAINS}};
+\node[event, right=12mm of r] (e) {事件\\入住康复中心};
+\draw[arr, orange] (t) -- (r);
+\draw[arr, orange] (r) -- (e);
+\end{tikzpicture}
+\end{center}
+
+在真实 XML 里，事件和时间都放在 \code{Markables} 下面。比如一个事件可能长这样：
+
+\begin{lstlisting}[language=XML]
+<ACTION_OCCURRENCE m_id="10" climaxEvent="TRUE" comment="">
+  <token_anchor t_id="67"/>
+</ACTION_OCCURRENCE>
+\end{lstlisting}
+
+这里的意思是：\code{m\_id="10"} 是这个事件便签的编号，\code{token\_anchor t\_id="67"} 表示这个事件对应正文里的第 67 个 token。
+
+时间也类似，只是标签换成 \code{TIME\_*}：
+
+\begin{lstlisting}[language=XML]
+<TIME_DATE m_id="43" DCT="TRUE" value="2010-09-10"/>
+\end{lstlisting}
+
+这里的 \code{value="2010-09-10"} 是标准化后的日期。你可以把它理解成：原文可能写成 “Friday” 或 “Sept. 10”，标注里尽量归一成机器更好读的时间值。
+
+真正把事件和时间连起来的是 \code{Relations} 里的 \code{TLINK}：
+
+\begin{lstlisting}[language=XML]
+<TLINK r_id="244387" relType="CONTAINS">
+  <source m_id="43"/>
+  <target m_id="9"/>
+</TLINK>
+\end{lstlisting}
+
+这个例子可以读成：\code{m\_id=43} 这个时间包含了 \code{m\_id=9} 这个事件。也就是说，事件 9 发生在时间 43 这个时间范围里。
+
+常见的 \code{TLINK} 类型可以先这样记：
+
+\begin{longtable}{>{\ttfamily}p{0.22\linewidth}p{0.28\linewidth}p{0.40\linewidth}}
+\toprule
+\normalfont 关系类型 & 大白话 & 例子 \\
+\midrule
+CONTAINS & 某个时间范围装着某个事件 & “2013 年 6 月”包含“入住康复中心”。 \\
+BEFORE & 前者早于后者 & “车祸”早于“法庭判决”。 \\
+AFTER & 前者晚于后者 & “今天”晚于“昨天的治疗”。 \\
+OVERLAP & 两者时间重叠 & “治疗期间”和“住院期间”有重合。 \\
+BEGUN\_ON & 事件从某时间开始 & “治疗”开始于某一天。 \\
+ENDED\_ON & 事件在某时间结束 & “治疗”结束于某一天。 \\
+\bottomrule
+\end{longtable}
+
+这里要特别分清：\code{TLINK} 和 \code{PLOT\_LINK} 不是一回事。\code{TLINK} 主要回答“什么时候、先后如何”；\code{PLOT\_LINK} 回答“故事线里两个事件是什么剧情关系”。所以时间关系更像日历，故事线关系更像剧情大纲。
+
+\section{共指关系：不同说法，指同一件事}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.96\linewidth]{assets_v2/coreference_metaphor.png}
+  \caption{共指关系像把几张新闻剪报用线连到同一张事件卡片上：说法不同，但指向同一件事。}
+\end{figure}
+
+\textbf{共指}这个词听起来很学术，其实可以先理解成一句话：
+
+\begin{center}
+\textbf{两个地方写得不一样，但它们说的是同一件事。}
+\end{center}
+
+比如同一个主题下有两篇相关新闻：
+
+\begin{itemize}[leftmargin=2em]
+  \item 文档 A 写：\textbf{Lohan 入住康复中心}。
+  \item 文档 B 写：\textbf{她接受治疗}。
+\end{itemize}
+
+这两个短语表面上不一样，但如果标注者认为它们说的是同一个现实事件，就会把它们放进同一个事件簇里。你可以把这个事件簇想成档案馆里的一张总卡片：
+
+\begin{center}
+\begin{tikzpicture}[
+  font=\small,
+  mention/.style={draw=blue!50, fill=softblue, rounded corners=3pt, minimum width=34mm, minimum height=10mm, align=center},
+  cluster/.style={draw=green!60!black, fill=softgreen, rounded corners=3pt, minimum width=35mm, minimum height=12mm, align=center},
+  arr/.style={-{Stealth[length=2mm]}, thick}
+]
+\node[mention] (m1) {文档 A\\入住康复中心};
+\node[mention, below=9mm of m1] (m2) {文档 B\\接受治疗};
+\node[cluster, right=22mm of $(m1)!0.5!(m2)$] (c) {同一事件簇\\\code{ACT123}};
+\draw[arr, orange] (m1) -- (c);
+\draw[arr, orange] (m2) -- (c);
+\end{tikzpicture}
+\end{center}
+
+在这个项目里，尤其要分清两层：
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{同文档共指}：同一篇新闻里，“爆炸”“这次袭击”“事件”可能指同一件事。
+  \item \textbf{跨文档共指}：不同新闻文件里，各自写到的事件提及，可能也指同一件现实事件。
+\end{itemize}
+
+ECB+ 支持跨文档共指。它不是在一个 XML 里直接写“去另一个 XML 文件找某个 \code{m\_id}”，而是用共享的事件簇编号或实例编号把它们归到一起。费曼式地说：\textbf{每篇新闻里的事件提及是小便签，共指链是档案馆给同一事件发的一张总身份证。}
+
+这也是为什么 \code{create\_gold\_document.py} 需要同时读取 ECB+ 和 ESC：ESC 给出 \code{PLOT\_LINK}，ECB+ 给出共指链。脚本再利用共指链，把“一个事件之间的故事线关系”扩展到更多等价的事件提及对上。
+
 \section{三种数据版本像三本教材}
 
 \begin{figure}[H]

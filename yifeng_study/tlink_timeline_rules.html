@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Crisis Timeline 的 TLINK 时间规则</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">* {
+box-sizing: border-box;
+}
+:root {
+--paper: #f7f4ef;
+--ink: #1d2630;
+--muted: #64748b;
+--line: #d9d1c5;
+--panel: #fffdf8;
+--dark: #17202a;
+--green: #0f8b6f;
+--blue: #2563eb;
+--gold: #b7791f;
+--rose: #b91c1c;
+}
+body {
+margin: 0;
+background: var(--paper);
+color: var(--ink);
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+line-height: 1.7;
+}
+header#title-block-header {
+display: none;
+}
+body > h1:first-of-type {
+max-width: 1080px;
+margin: 32px auto 24px;
+padding: 30px 34px;
+border-radius: 18px;
+background:
+linear-gradient(135deg, rgba(15, 139, 111, 0.24), transparent 36%),
+linear-gradient(135deg, #1d2630, #111827);
+color: #fffdf8;
+font-size: 36px;
+line-height: 1.24;
+letter-spacing: 0;
+word-break: keep-all;
+overflow-wrap: break-word;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual {
+max-width: 1080px;
+margin-left: auto;
+margin-right: auto;
+}
+h2 {
+margin-top: 38px;
+border-bottom: 2px solid var(--line);
+padding: 0 28px 8px;
+font-size: 24px;
+}
+h3 {
+margin-top: 28px;
+padding: 0 28px;
+font-size: 19px;
+}
+p,
+ul,
+ol,
+pre,
+table {
+font-size: 16px;
+}
+p,
+ul,
+ol {
+padding-left: 28px;
+padding-right: 28px;
+}
+table {
+width: calc(100% - 56px);
+margin-top: 18px;
+margin-bottom: 18px;
+border-collapse: collapse;
+background: var(--panel);
+border: 1px solid var(--line);
+box-shadow: 0 12px 30px rgba(29, 38, 48, 0.05);
+}
+th,
+td {
+border: 1px solid var(--line);
+padding: 10px 12px;
+vertical-align: top;
+}
+th {
+background: #efe9df;
+text-align: left;
+}
+code {
+font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+background: #eee4d8;
+border-radius: 5px;
+padding: 2px 5px;
+}
+pre,
+div.sourceCode {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+overflow: auto;
+background: var(--dark);
+color: #f8fafc;
+border-radius: 10px;
+padding: 14px 16px;
+box-shadow: 0 16px 40px rgba(23, 32, 42, 0.14);
+}
+div.sourceCode pre {
+width: auto;
+margin: 0;
+padding: 0;
+background: transparent;
+box-shadow: none;
+}
+pre code,
+div.sourceCode code {
+background: transparent;
+color: inherit;
+padding: 0;
+}
+a {
+color: var(--blue);
+}
+blockquote {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+border-left: 4px solid var(--green);
+background: #eaf7ef;
+padding: 10px 14px;
+}
+.rule-visual {
+width: calc(100% - 56px);
+margin-top: 20px;
+margin-bottom: 34px;
+padding: 24px;
+border: 1px solid var(--line);
+border-radius: 18px;
+background: var(--panel);
+box-shadow: 0 18px 44px rgba(29, 38, 48, 0.08);
+}
+.rule-visual h2 {
+margin: 0 0 18px;
+padding: 0;
+border: 0;
+font-size: 21px;
+}
+.flow-steps {
+display: flex;
+flex-wrap: wrap;
+align-items: stretch;
+gap: 10px;
+}
+.flow-card {
+flex: 1 1 138px;
+min-height: 112px;
+padding: 14px;
+border: 1px solid #d6e3dc;
+border-radius: 14px;
+background: #f8fbfa;
+}
+.flow-card strong,
+.priority-card strong {
+display: block;
+font-size: 17px;
+}
+.flow-card span,
+.priority-card p,
+.seed-node span,
+.cause-pool span {
+display: block;
+margin-top: 8px;
+color: var(--muted);
+font-size: 14px;
+}
+.flow-arrow {
+align-self: center;
+color: var(--green);
+font-size: 24px;
+font-weight: 800;
+}
+.flow-card.aspect { border-color: #bfdbfe; background: #eff6ff; }
+.flow-card.seed { border-color: #fecdd3; background: #fff1f2; }
+.flow-card.cause { border-color: #fde68a; background: #fffbeb; }
+.flow-card.time { border-color: #ddd6fe; background: #f5f3ff; }
+.flow-card.output { border-color: #bbf7d0; background: #f0fdf4; }
+.causal-board {
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+gap: 18px;
+margin-top: 22px;
+padding-top: 20px;
+border-top: 1px dashed var(--line);
+}
+.cause-pool,
+.seed-node {
+min-height: 112px;
+padding: 16px;
+border-radius: 14px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.cause-pool b,
+.seed-node b {
+display: inline-block;
+margin: 10px 8px 0 0;
+padding: 5px 9px;
+border-radius: 999px;
+background: #ffffff;
+border: 1px solid var(--line);
+}
+.cause-arrow {
+color: var(--rose);
+font-weight: 800;
+text-align: center;
+}
+.priority-lanes {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 14px;
+}
+.priority-card {
+position: relative;
+min-height: 178px;
+padding: 18px 16px 16px;
+border-radius: 16px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.priority-num {
+display: inline-grid;
+width: 34px;
+height: 34px;
+margin-bottom: 12px;
+place-items: center;
+border-radius: 50%;
+color: #fff;
+font-weight: 800;
+}
+.priority-card.gold .priority-num { background: var(--gold); }
+.priority-card.weak .priority-num { background: var(--green); }
+.priority-card.unknown .priority-num { background: var(--muted); }
+.priority-card.gold { background: #fffbeb; border-color: #fde68a; }
+.priority-card.weak { background: #ecfdf5; border-color: #bbf7d0; }
+.priority-card.unknown { background: #f8fafc; border-color: #cbd5e1; }
+.priority-card code {
+display: inline-block;
+margin-top: 8px;
+white-space: normal;
+}
+.mini-example {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 10px;
+margin-top: 16px;
+}
+.mini-example span {
+padding: 10px 12px;
+border-radius: 12px;
+background: #17202a;
+color: #f8fafc;
+font-size: 14px;
+}
+@media (max-width: 780px) {
+body > h1:first-of-type {
+margin: 16px 14px 18px;
+padding: 24px 22px;
+font-size: 28px;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual {
+width: calc(100% - 28px);
+}
+p,
+ul,
+ol,
+h2,
+h3 {
+padding-left: 14px;
+padding-right: 14px;
+}
+.flow-arrow {
+display: none;
+}
+.causal-board,
+.priority-lanes,
+.mini-example {
+grid-template-columns: 1fr;
+}
+.cause-arrow {
+text-align: left;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Crisis Timeline 的 TLINK 时间规则</h1>
+</header>
+<h1 id="crisis-timeline-的-tlink-时间规则">Crisis Timeline 的 TLINK
+时间规则</h1>
+<p>这个文档只定义事件进入 timeline
+时的时间锚定规则。这里采用保守策略：只认可明确
+TLINK、跨文档共指继承、完全未知三种情况。</p>
+<h2 id="核心原则">核心原则</h2>
+<p>构建 timeline 时，事件的时间来源必须标清楚。不能把数据集中已有的 gold
+标注和我们自己推断出来的时间混在一起。</p>
+<section class="rule-visual">
+  <h2>可视化总览：三档时间锚定</h2>
+  <div class="priority-lanes">
+    <div class="priority-card gold">
+      <span class="priority-num">1</span>
+      <strong>有 TLINK</strong>
+      <p>直接使用 XML 里事件连到的时间。</p>
+      <code>time_source = TLINK</code>
+    </div>
+    <div class="priority-card weak">
+      <span class="priority-num">2</span>
+      <strong>共指继承</strong>
+      <p>同一跨文档共指簇里，别的 mention 有时间。</p>
+      <code>time_source = INFERRED_COREF_TIME</code>
+    </div>
+    <div class="priority-card unknown">
+      <span class="priority-num">3</span>
+      <strong>未知时间池</strong>
+      <p>没有 TLINK，也没有可继承的共指时间。</p>
+      <code>time_source = UNKNOWN_TIME</code>
+    </div>
+  </div>
+  <div class="mini-example">
+    <span>quake → 0737 GMT</span>
+    <span>另一篇 quake 继承 0737 GMT</span>
+    <span>said 没可靠时间 → UNKNOWN</span>
+  </div>
+</section>
+<p>本项目当前只使用三类时间状态：</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>类型</th>
+<th>时间策略</th>
+<th>例子</th>
+<th><code>time_source</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有 TLINK</td>
+<td>用 TLINK 连接的时间</td>
+<td><code>quake</code> → <code>0737 GMT</code></td>
+<td><code>TLINK</code></td>
+</tr>
+<tr>
+<td>无 TLINK，但共指事件有时间</td>
+<td>从同一跨文档共指簇里的其他事件继承时间</td>
+<td><code>quake</code> 在另一篇文档里有 TLINK 时间</td>
+<td><code>INFERRED_COREF_TIME</code></td>
+</tr>
+<tr>
+<td>完全无法推断</td>
+<td>不给具体时间，放入未知时间池</td>
+<td>没时间、没关系、没共指</td>
+<td><code>UNKNOWN_TIME</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="规则-1有-tlink">规则 1：有 TLINK</h2>
+<p>如果事件本身在 XML 里直接连到了 <code>TLINK</code>，就使用这个 TLINK
+对应的时间。</p>
+<p>例如：</p>
+<pre class="text"><code>TIME: 0737 GMT
+TLINK: 0737 GMT CONTAINS quake</code></pre>
+<p>则 timeline 节点记录为：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;0737 GMT&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;TLINK&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;gold&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>这是最高优先级，也是最可靠的时间来源。</p>
+<h2 id="规则-2无-tlink但共指事件有时间">规则 2：无
+TLINK，但共指事件有时间</h2>
+<p>如果当前事件没有
+TLINK，但它属于一个跨文档共指簇，并且同一个共指簇中的其他事件有 TLINK
+时间，那么当前事件可以继承这个时间。</p>
+<p>例如：</p>
+<pre class="text"><code>文档 A: quake，没有 TLINK
+文档 B: quake → 0737 GMT
+两个 quake 属于同一个 CROSS_DOC_COREF 簇</code></pre>
+<p>则文档 A 的事件可以记录为：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;0737 GMT&quot;</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;INFERRED_COREF_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;weak&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>注意：这不是 gold TLINK，而是基于共指簇的继承时间，所以必须和
+<code>TLINK</code> 区分开。</p>
+<h2 id="规则-3完全无法推断">规则 3：完全无法推断</h2>
+<p>如果事件满足以下情况：</p>
+<ul>
+<li>没有 TLINK；</li>
+<li>没有可继承时间的跨文档共指事件；</li>
+<li>没有可靠时间来源；</li>
+</ul>
+<p>则不强行给时间，放入未知时间池。</p>
+<p>记录为：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event&quot;</span><span class="fu">:</span> <span class="st">&quot;said&quot;</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;UNKNOWN_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="当前不采用的规则">当前不采用的规则</h2>
+<p>下面这些规则暂时不作为时间锚定依据：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>不采用的策略</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同句有时间就继承</td>
+<td>容易把句中其他事件的时间错误套到当前事件上</td>
+</tr>
+<tr>
+<td>邻句/上下文时间继承</td>
+<td>推断太弱，容易引入噪声</td>
+</tr>
+<tr>
+<td>通过 PLOT_LINK 推断具体时间</td>
+<td>PLOT_LINK 表示故事线/解释关系，不等于时间标注</td>
+</tr>
+<tr>
+<td>报道类事件单独估计时间</td>
+<td><code>said/reported/told</code> 常常只是新闻叙述动作，不一定是
+crisis 主线时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plot_link-在-timeline-中的作用">PLOT_LINK 在 timeline
+中的作用</h2>
+<p>PLOT_LINK
+可以用来补充事件链的因果或情节上下文，但不直接提供具体时间。</p>
+<p>例如，关注“人员伤亡”这个 aspect 时：</p>
+<pre class="text"><code>fire / shooting / quake  →  killed / injured</code></pre>
+<p>这里可以用 PLOT_LINK 把
+<code>fire</code>、<code>shooting</code>、<code>quake</code>
+作为伤亡事件的前因放入 timeline，但这些事件的时间仍然必须按照本文三条
+TLINK 时间规则处理。</p>
+<p>也就是说：</p>
+<pre class="text"><code>PLOT_LINK 负责解释“为什么有关”
+TLINK / COREF / UNKNOWN 负责说明“放在时间线上哪里”</code></pre>
+<h2 id="推荐节点格式">推荐节点格式</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_3ecbplus.xml#m12&quot;</span><span class="fu">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;地震发生&quot;</span><span class="fu">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;0737 GMT&quot;</span><span class="fu">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;TLINK&quot;</span><span class="fu">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;gold&quot;</span><span class="fu">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果是通过共指继承：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_4ecbplus.xml#m8&quot;</span><span class="fu">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;地震发生&quot;</span><span class="fu">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;0737 GMT&quot;</span><span class="fu">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;INFERRED_COREF_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;weak&quot;</span><span class="fu">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果完全未知：</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;18/18_2ecbplus.xml#m11&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;said&quot;</span><span class="fu">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;官方通报&quot;</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;UNKNOWN_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;none&quot;</span><span class="fu">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</body>
+</html>

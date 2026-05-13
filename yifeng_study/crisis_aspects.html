@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Crisis 统一 Aspect 体系</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">* {
+box-sizing: border-box;
+}
+:root {
+--paper: #f7f4ef;
+--ink: #1d2630;
+--muted: #64748b;
+--line: #d9d1c5;
+--panel: #fffdf8;
+--dark: #17202a;
+--green: #0f8b6f;
+--blue: #2563eb;
+--gold: #b7791f;
+--rose: #b91c1c;
+}
+body {
+margin: 0;
+background: var(--paper);
+color: var(--ink);
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+line-height: 1.7;
+}
+header#title-block-header {
+display: none;
+}
+body > h1:first-of-type {
+max-width: 1080px;
+margin: 32px auto 24px;
+padding: 30px 34px;
+border-radius: 18px;
+background:
+linear-gradient(135deg, rgba(15, 139, 111, 0.24), transparent 36%),
+linear-gradient(135deg, #1d2630, #111827);
+color: #fffdf8;
+font-size: 36px;
+line-height: 1.24;
+letter-spacing: 0;
+word-break: keep-all;
+overflow-wrap: break-word;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual,
+body > .aspect-grid {
+max-width: 1080px;
+margin-left: auto;
+margin-right: auto;
+}
+h2 {
+margin-top: 38px;
+border-bottom: 2px solid var(--line);
+padding: 0 28px 8px;
+font-size: 24px;
+}
+h3 {
+margin-top: 28px;
+padding: 0 28px;
+font-size: 19px;
+}
+p,
+ul,
+ol,
+pre,
+table {
+font-size: 16px;
+}
+p,
+ul,
+ol {
+padding-left: 28px;
+padding-right: 28px;
+}
+table {
+width: calc(100% - 56px);
+margin-top: 18px;
+margin-bottom: 18px;
+border-collapse: collapse;
+background: var(--panel);
+border: 1px solid var(--line);
+box-shadow: 0 12px 30px rgba(29, 38, 48, 0.05);
+}
+th,
+td {
+border: 1px solid var(--line);
+padding: 10px 12px;
+vertical-align: top;
+}
+th {
+background: #efe9df;
+text-align: left;
+}
+code {
+font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+background: #eee4d8;
+border-radius: 5px;
+padding: 2px 5px;
+}
+pre,
+div.sourceCode {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+overflow: auto;
+background: var(--dark);
+color: #f8fafc;
+border-radius: 10px;
+padding: 14px 16px;
+box-shadow: 0 16px 40px rgba(23, 32, 42, 0.14);
+}
+div.sourceCode pre {
+width: auto;
+margin: 0;
+padding: 0;
+background: transparent;
+box-shadow: none;
+}
+pre code,
+div.sourceCode code {
+background: transparent;
+color: inherit;
+padding: 0;
+}
+a {
+color: var(--blue);
+}
+blockquote {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+border-left: 4px solid var(--green);
+background: #eaf7ef;
+padding: 10px 14px;
+}
+.rule-visual {
+width: calc(100% - 56px);
+margin-top: 20px;
+margin-bottom: 34px;
+padding: 24px;
+border: 1px solid var(--line);
+border-radius: 18px;
+background: var(--panel);
+box-shadow: 0 18px 44px rgba(29, 38, 48, 0.08);
+}
+.rule-visual h2 {
+margin: 0 0 18px;
+padding: 0;
+border: 0;
+font-size: 21px;
+}
+.flow-steps {
+display: flex;
+flex-wrap: wrap;
+align-items: stretch;
+gap: 10px;
+}
+.flow-card {
+flex: 1 1 138px;
+min-height: 112px;
+padding: 14px;
+border: 1px solid #d6e3dc;
+border-radius: 14px;
+background: #f8fbfa;
+}
+.flow-card strong,
+.priority-card strong {
+display: block;
+font-size: 17px;
+}
+.flow-card span,
+.priority-card p,
+.seed-node span,
+.cause-pool span {
+display: block;
+margin-top: 8px;
+color: var(--muted);
+font-size: 14px;
+}
+.flow-arrow {
+align-self: center;
+color: var(--green);
+font-size: 24px;
+font-weight: 800;
+}
+.flow-card.aspect { border-color: #bfdbfe; background: #eff6ff; }
+.flow-card.seed { border-color: #fecdd3; background: #fff1f2; }
+.flow-card.cause { border-color: #fde68a; background: #fffbeb; }
+.flow-card.time { border-color: #ddd6fe; background: #f5f3ff; }
+.flow-card.merge { border-color: #bae6fd; background: #f0f9ff; }
+.flow-card.output { border-color: #bbf7d0; background: #f0fdf4; }
+.aspect-grid {
+display: grid;
+grid-template-columns: repeat(7, minmax(116px, 1fr));
+gap: 10px;
+}
+.aspect-card {
+min-height: 150px;
+padding: 14px;
+border: 1px solid var(--line);
+border-radius: 14px;
+background: #f8fbfa;
+}
+.aspect-card b {
+display: block;
+font-size: 15px;
+line-height: 1.45;
+}
+.aspect-card span {
+display: block;
+margin-top: 10px;
+color: var(--muted);
+font-size: 13px;
+line-height: 1.55;
+}
+.aspect-card.a1 { background: #fff7ed; border-color: #fed7aa; }
+.aspect-card.a2 { background: #fff1f2; border-color: #fecdd3; }
+.aspect-card.a3 { background: #f0f9ff; border-color: #bae6fd; }
+.aspect-card.a4 { background: #fffbeb; border-color: #fde68a; }
+.aspect-card.a5 { background: #ecfdf5; border-color: #bbf7d0; }
+.aspect-card.a6 { background: #eff6ff; border-color: #bfdbfe; }
+.aspect-card.a7 { background: #f8fafc; border-color: #cbd5e1; }
+.causal-board {
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+gap: 18px;
+margin-top: 22px;
+padding-top: 20px;
+border-top: 1px dashed var(--line);
+}
+.cause-pool,
+.seed-node {
+min-height: 112px;
+padding: 16px;
+border-radius: 14px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.cause-pool b,
+.seed-node b {
+display: inline-block;
+margin: 10px 8px 0 0;
+padding: 5px 9px;
+border-radius: 999px;
+background: #ffffff;
+border: 1px solid var(--line);
+}
+.cause-arrow {
+color: var(--rose);
+font-weight: 800;
+text-align: center;
+}
+.priority-lanes {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 14px;
+}
+.priority-card {
+position: relative;
+min-height: 178px;
+padding: 18px 16px 16px;
+border-radius: 16px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.priority-num {
+display: inline-grid;
+width: 34px;
+height: 34px;
+margin-bottom: 12px;
+place-items: center;
+border-radius: 50%;
+color: #fff;
+font-weight: 800;
+}
+.priority-card.gold .priority-num { background: var(--gold); }
+.priority-card.weak .priority-num { background: var(--green); }
+.priority-card.unknown .priority-num { background: var(--muted); }
+.priority-card.gold { background: #fffbeb; border-color: #fde68a; }
+.priority-card.weak { background: #ecfdf5; border-color: #bbf7d0; }
+.priority-card.unknown { background: #f8fafc; border-color: #cbd5e1; }
+.priority-card code {
+display: inline-block;
+margin-top: 8px;
+white-space: normal;
+}
+.mini-example {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 10px;
+margin-top: 16px;
+}
+.mini-example span {
+padding: 10px 12px;
+border-radius: 12px;
+background: #17202a;
+color: #f8fafc;
+font-size: 14px;
+}
+@media (max-width: 780px) {
+body > h1:first-of-type {
+margin: 16px 14px 18px;
+padding: 24px 22px;
+font-size: 28px;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual,
+body > .aspect-grid {
+width: calc(100% - 28px);
+}
+p,
+ul,
+ol,
+h2,
+h3 {
+padding-left: 14px;
+padding-right: 14px;
+}
+.flow-arrow {
+display: none;
+}
+.causal-board,
+.priority-lanes,
+.mini-example,
+.aspect-grid {
+grid-template-columns: 1fr;
+}
+.cause-arrow {
+text-align: left;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Crisis 统一 Aspect 体系</h1>
+</header>
+<h1 id="crisis-统一-aspect-体系">Crisis 统一 Aspect 体系</h1>
+<p>这个文档定义所有 crisis 主题统一使用的一级 aspect。</p>
+<p>核心原则是：不再为每个 crisis 主题单独设计一套 aspect，而是把所有
+crisis 事件都放进同一套 7 个一级
+aspect。不同主题的差别体现在：哪些事件会落入这些 aspect，以及每个 aspect
+的事件数量和重要性不同。</p>
+<section class="rule-visual">
+  <h2>7 个统一 aspect 的直观结构</h2>
+  <div class="aspect-grid">
+    <div class="aspect-card a1"><b>1. 事件态势与危险演化</b><span>危机本身怎么发生、怎么变化</span></div>
+    <div class="aspect-card a2"><b>2. 人员影响与脆弱群体</b><span>人受到什么影响</span></div>
+    <div class="aspect-card a3"><b>3. 基础设施与生命线影响</b><span>房屋、道路、电力等受损</span></div>
+    <div class="aspect-card a4"><b>4. 需求与求助</b><span>灾区缺什么、谁在求助</span></div>
+    <div class="aspect-card a5"><b>5. 响应、资源与恢复行动</b><span>谁在救援、恢复、支援</span></div>
+    <div class="aspect-card a6"><b>6. 风险沟通与公众指引</b><span>警告、建议、行动指令</span></div>
+    <div class="aspect-card a7"><b>7. 信息来源、证据与可信度</b><span>信息从哪里来、是否可靠</span></div>
+  </div>
+</section>
+<h2 id="aspect-总表">Aspect 总表</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>一级 aspect</th>
+<th>含义</th>
+<th>可覆盖的具体内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 事件态势与危险演化</strong></td>
+<td>灾害本身发生了什么、如何变化</td>
+<td>地震震级、火势蔓延、洪水水位、余震、爆炸、次生灾害、新威胁、天气变化</td>
+</tr>
+<tr>
+<td><strong>2. 人员影响与脆弱群体</strong></td>
+<td>人受到什么影响</td>
+<td>伤亡、失踪、被困、疏散、流离失所、老人儿童病人、受灾群众状态</td>
+</tr>
+<tr>
+<td><strong>3. 基础设施与生命线影响</strong></td>
+<td>物理环境和关键服务受损情况</td>
+<td>房屋、道路、桥梁、电力、通信、供水、医院、学校、交通、车辆损毁</td>
+</tr>
+<tr>
+<td><strong>4. 需求与求助</strong></td>
+<td>灾区缺什么、谁在求助</td>
+<td>搜救、医疗、食物、水、住所、药品、血液、交通、信息查询、紧急物资</td>
+</tr>
+<tr>
+<td><strong>5. 响应、资源与恢复行动</strong></td>
+<td>谁在做什么救援或恢复</td>
+<td>政府救援、NGO、志愿者、捐赠、避难所开放、物资发放、清理、服务恢复</td>
+</tr>
+<tr>
+<td><strong>6. 风险沟通与公众指引</strong></td>
+<td>给公众的警告、建议、行动指令</td>
+<td>撤离令、避险提示、封路通知、天气警报、公共卫生建议、官方安全指南</td>
+</tr>
+<tr>
+<td><strong>7. 信息来源、证据与可信度</strong></td>
+<td>这条信息来自哪里、是否可信</td>
+<td>官方通报、媒体报道、目击者、转述、图片视频证据、位置线索、谣言、未证实消息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用方式">使用方式</h2>
+<p>对每个 crisis topic，都从这 7 个一级 aspect 里选择事件。</p>
+<p>也就是说，一个地震主题、一个火灾主题、一个枪击主题，都使用同一套
+aspect。区别只是：</p>
+<pre class="text"><code>地震主题里，“事件态势”可能对应 quake / aftershock / tremor
+火灾主题里，“事件态势”可能对应 fire / spread / burned
+枪击主题里，“事件态势”可能对应 shooting / attack / explosion</code></pre>
+<p>这样做的好处是：不同 crisis 主题之间可以比较，也可以用同一套 timeline
+构建规则。</p>
+<h2 id="事件归类原则">事件归类原则</h2>
+<p>给事件分 aspect 时，只看事件在 crisis
+发展中扮演的功能，不把时间、人物、地点本身当成 aspect。</p>
+<p>例如：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>事件</th>
+<th>更可能属于的 aspect</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>quake</code>, <code>exploded</code>, <code>spread</code></td>
+<td>事件态势与危险演化</td>
+<td>它们描述危机本身的发生或变化</td>
+</tr>
+<tr>
+<td><code>killed</code>, <code>injured</code>, <code>trapped</code>,
+<code>evacuated</code></td>
+<td>人员影响与脆弱群体</td>
+<td>它们描述人受到的影响</td>
+</tr>
+<tr>
+<td><code>collapsed</code>, <code>damaged</code>,
+<code>cut off</code></td>
+<td>基础设施与生命线影响</td>
+<td>它们描述房屋、道路、服务系统受损</td>
+</tr>
+<tr>
+<td><code>needed</code>, <code>appealed</code>,
+<code>requested</code></td>
+<td>需求与求助</td>
+<td>它们表达灾区缺什么或谁在求助</td>
+</tr>
+<tr>
+<td><code>rescued</code>, <code>sent</code>, <code>donated</code>,
+<code>reopened</code></td>
+<td>响应、资源与恢复行动</td>
+<td>它们描述救援、资源调度或恢复</td>
+</tr>
+<tr>
+<td><code>warned</code>, <code>ordered</code>, <code>urged</code></td>
+<td>风险沟通与公众指引</td>
+<td>它们是面向公众的提醒或行动指令</td>
+</tr>
+<tr>
+<td><code>said</code>, <code>reported</code>, <code>confirmed</code>,
+<code>claimed</code></td>
+<td>信息来源、证据与可信度</td>
+<td>它们说明信息来源或可信状态</td>
+</tr>
+</tbody>
+</table>
+<h2 id="多-aspect-情况">多 aspect 情况</h2>
+<p>一个事件有时可能同时触发多个 aspect。</p>
+<p>例如：</p>
+<pre class="text"><code>officials warned residents to evacuate</code></pre>
+<p>这里：</p>
+<ul>
+<li><code>warned</code> 可以属于
+<strong>风险沟通与公众指引</strong>；</li>
+<li><code>evacuate</code> 可以属于
+<strong>人员影响与脆弱群体</strong>，也可能属于
+<strong>响应、资源与恢复行动</strong>，取决于句子强调的是“人被疏散”还是“政府组织疏散”。</li>
+</ul>
+<p>推荐做法：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;primary_aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;6. 风险沟通与公众指引&quot;</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;secondary_aspects&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;2. 人员影响与脆弱群体&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect_confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;medium&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果只是为了构建某一个 aspect timeline，则优先使用
+<code>primary_aspect</code>；需要召回更多相关事件时，再使用
+<code>secondary_aspects</code>。</p>
+<h2 id="与-timeline-构建规则的关系">与 Timeline 构建规则的关系</h2>
+<p>这套 aspect 只回答：</p>
+<pre class="text"><code>这个事件属于 crisis 的哪个关注面？</code></pre>
+<p>timeline 构建规则继续回答：</p>
+<pre class="text"><code>这个事件怎么找前因？
+这个事件怎么锚定时间？
+共指事件怎么合并？
+最后在 timeline 上怎么显示？</code></pre>
+<p>因此，完整流程是：</p>
+<pre class="text"><code>crisis topic
+  → 从 7 个统一 aspect 中选择一个
+  → 找到该 aspect 的 seed 事件
+  → 沿 PLOT_LINK 补充前因
+  → 用 TLINK / 共指继承 / UNKNOWN_TIME 锚定时间
+  → 合并共指事件
+  → 输出 document id - sentence id - event name</code></pre>
+</body>
+</html>

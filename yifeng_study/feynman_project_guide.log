@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.28)  7 MAY 2026 20:34
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.28)  8 MAY 2026 12:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1242,12 +1242,27 @@ ignored: Infinite glue shrinkage found in box being split [3]
 File: assets_v2/annotation_metaphor.png Graphic file (type bmp)
 <assets_v2/annotation_metaphor.png>
  [4]
+File: assets_v2/temporal_relation_metaphor.png Graphic file (type bmp)
+<assets_v2/temporal_relation_metaphor.png>
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 168.
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
+) [5]
+File: assets_v2/coreference_metaphor.png Graphic file (type bmp)
+<assets_v2/coreference_metaphor.png>
+
+[6] [7]
 File: assets_v2/version_metaphor.png Graphic file (type bmp)
 <assets_v2/version_metaphor.png>
- [5]
+ [8]
 File: assets_v2/evaluation_metaphor.png Graphic file (type bmp)
 <assets_v2/evaluation_metaphor.png>
- [6] [7]
+ [9] [10]
 (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
@@ -1255,23 +1270,23 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 309.
- [8]
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 438.
+ [11]
 (./feynman_project_guide.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `feynman_project_guide.out' has not changed.
-(rerunfilecheck)             Checksum: 4B9BEE5035A58D6C9EDB6FE834B14E81;1127.
+(rerunfilecheck)             Checksum: F5A4FF0B535BFE9E4BF9B251D4FA5077;1425.
  ) 
 Here is how much of TeX's memory you used:
- 28326 strings out of 468168
- 623991 string characters out of 5432815
- 1241611 words of memory out of 5000000
- 56598 multiletter control sequences out of 15000+600000
- 632707 words of font info for 83 fonts, out of 8000000 for 9000
+ 28553 strings out of 468168
+ 633987 string characters out of 5432815
+ 1283053 words of memory out of 5000000
+ 56818 multiletter control sequences out of 15000+600000
+ 632715 words of font info for 84 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 93i,8n,112p,432b,1118s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 93i,8n,112p,432b,1145s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on feynman_project_guide.pdf (8 pages).
+Output written on feynman_project_guide.pdf (11 pages).

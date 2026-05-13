@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Aspect Timeline 构建规则</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">* {
+box-sizing: border-box;
+}
+:root {
+--paper: #f7f4ef;
+--ink: #1d2630;
+--muted: #64748b;
+--line: #d9d1c5;
+--panel: #fffdf8;
+--dark: #17202a;
+--green: #0f8b6f;
+--blue: #2563eb;
+--gold: #b7791f;
+--rose: #b91c1c;
+}
+body {
+margin: 0;
+background: var(--paper);
+color: var(--ink);
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+line-height: 1.7;
+}
+header#title-block-header {
+display: none;
+}
+body > h1:first-of-type {
+max-width: 1080px;
+margin: 32px auto 24px;
+padding: 30px 34px;
+border-radius: 18px;
+background:
+linear-gradient(135deg, rgba(15, 139, 111, 0.24), transparent 36%),
+linear-gradient(135deg, #1d2630, #111827);
+color: #fffdf8;
+font-size: 36px;
+line-height: 1.24;
+letter-spacing: 0;
+word-break: keep-all;
+overflow-wrap: break-word;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual,
+body > .aspect-grid {
+max-width: 1080px;
+margin-left: auto;
+margin-right: auto;
+}
+h2 {
+margin-top: 38px;
+border-bottom: 2px solid var(--line);
+padding: 0 28px 8px;
+font-size: 24px;
+}
+h3 {
+margin-top: 28px;
+padding: 0 28px;
+font-size: 19px;
+}
+p,
+ul,
+ol,
+pre,
+table {
+font-size: 16px;
+}
+p,
+ul,
+ol {
+padding-left: 28px;
+padding-right: 28px;
+}
+table {
+width: calc(100% - 56px);
+margin-top: 18px;
+margin-bottom: 18px;
+border-collapse: collapse;
+background: var(--panel);
+border: 1px solid var(--line);
+box-shadow: 0 12px 30px rgba(29, 38, 48, 0.05);
+}
+th,
+td {
+border: 1px solid var(--line);
+padding: 10px 12px;
+vertical-align: top;
+}
+th {
+background: #efe9df;
+text-align: left;
+}
+code {
+font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+background: #eee4d8;
+border-radius: 5px;
+padding: 2px 5px;
+}
+pre,
+div.sourceCode {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+overflow: auto;
+background: var(--dark);
+color: #f8fafc;
+border-radius: 10px;
+padding: 14px 16px;
+box-shadow: 0 16px 40px rgba(23, 32, 42, 0.14);
+}
+div.sourceCode pre {
+width: auto;
+margin: 0;
+padding: 0;
+background: transparent;
+box-shadow: none;
+}
+pre code,
+div.sourceCode code {
+background: transparent;
+color: inherit;
+padding: 0;
+}
+a {
+color: var(--blue);
+}
+blockquote {
+width: calc(100% - 56px);
+margin-top: 16px;
+margin-bottom: 16px;
+border-left: 4px solid var(--green);
+background: #eaf7ef;
+padding: 10px 14px;
+}
+.rule-visual {
+width: calc(100% - 56px);
+margin-top: 20px;
+margin-bottom: 34px;
+padding: 24px;
+border: 1px solid var(--line);
+border-radius: 18px;
+background: var(--panel);
+box-shadow: 0 18px 44px rgba(29, 38, 48, 0.08);
+}
+.rule-visual h2 {
+margin: 0 0 18px;
+padding: 0;
+border: 0;
+font-size: 21px;
+}
+.flow-steps {
+display: flex;
+flex-wrap: wrap;
+align-items: stretch;
+gap: 10px;
+}
+.flow-card {
+flex: 1 1 138px;
+min-height: 112px;
+padding: 14px;
+border: 1px solid #d6e3dc;
+border-radius: 14px;
+background: #f8fbfa;
+}
+.flow-card strong,
+.priority-card strong {
+display: block;
+font-size: 17px;
+}
+.flow-card span,
+.priority-card p,
+.seed-node span,
+.cause-pool span {
+display: block;
+margin-top: 8px;
+color: var(--muted);
+font-size: 14px;
+}
+.flow-arrow {
+align-self: center;
+color: var(--green);
+font-size: 24px;
+font-weight: 800;
+}
+.flow-card.aspect { border-color: #bfdbfe; background: #eff6ff; }
+.flow-card.seed { border-color: #fecdd3; background: #fff1f2; }
+.flow-card.cause { border-color: #fde68a; background: #fffbeb; }
+.flow-card.time { border-color: #ddd6fe; background: #f5f3ff; }
+.flow-card.merge { border-color: #bae6fd; background: #f0f9ff; }
+.flow-card.output { border-color: #bbf7d0; background: #f0fdf4; }
+.aspect-grid {
+display: grid;
+grid-template-columns: repeat(7, minmax(116px, 1fr));
+gap: 10px;
+}
+.aspect-card {
+min-height: 150px;
+padding: 14px;
+border: 1px solid var(--line);
+border-radius: 14px;
+background: #f8fbfa;
+}
+.aspect-card b {
+display: block;
+font-size: 15px;
+line-height: 1.45;
+}
+.aspect-card span {
+display: block;
+margin-top: 10px;
+color: var(--muted);
+font-size: 13px;
+line-height: 1.55;
+}
+.aspect-card.a1 { background: #fff7ed; border-color: #fed7aa; }
+.aspect-card.a2 { background: #fff1f2; border-color: #fecdd3; }
+.aspect-card.a3 { background: #f0f9ff; border-color: #bae6fd; }
+.aspect-card.a4 { background: #fffbeb; border-color: #fde68a; }
+.aspect-card.a5 { background: #ecfdf5; border-color: #bbf7d0; }
+.aspect-card.a6 { background: #eff6ff; border-color: #bfdbfe; }
+.aspect-card.a7 { background: #f8fafc; border-color: #cbd5e1; }
+.causal-board {
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+gap: 18px;
+margin-top: 22px;
+padding-top: 20px;
+border-top: 1px dashed var(--line);
+}
+.cause-pool,
+.seed-node {
+min-height: 112px;
+padding: 16px;
+border-radius: 14px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.cause-pool b,
+.seed-node b {
+display: inline-block;
+margin: 10px 8px 0 0;
+padding: 5px 9px;
+border-radius: 999px;
+background: #ffffff;
+border: 1px solid var(--line);
+}
+.cause-arrow {
+color: var(--rose);
+font-weight: 800;
+text-align: center;
+}
+.priority-lanes {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 14px;
+}
+.priority-card {
+position: relative;
+min-height: 178px;
+padding: 18px 16px 16px;
+border-radius: 16px;
+border: 1px solid var(--line);
+background: #faf7f1;
+}
+.priority-num {
+display: inline-grid;
+width: 34px;
+height: 34px;
+margin-bottom: 12px;
+place-items: center;
+border-radius: 50%;
+color: #fff;
+font-weight: 800;
+}
+.priority-card.gold .priority-num { background: var(--gold); }
+.priority-card.weak .priority-num { background: var(--green); }
+.priority-card.unknown .priority-num { background: var(--muted); }
+.priority-card.gold { background: #fffbeb; border-color: #fde68a; }
+.priority-card.weak { background: #ecfdf5; border-color: #bbf7d0; }
+.priority-card.unknown { background: #f8fafc; border-color: #cbd5e1; }
+.priority-card code {
+display: inline-block;
+margin-top: 8px;
+white-space: normal;
+}
+.mini-example {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 10px;
+margin-top: 16px;
+}
+.mini-example span {
+padding: 10px 12px;
+border-radius: 12px;
+background: #17202a;
+color: #f8fafc;
+font-size: 14px;
+}
+@media (max-width: 780px) {
+body > h1:first-of-type {
+margin: 16px 14px 18px;
+padding: 24px 22px;
+font-size: 28px;
+}
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > table,
+body > pre,
+body > div.sourceCode,
+body > blockquote,
+body > .rule-visual,
+body > .aspect-grid {
+width: calc(100% - 28px);
+}
+p,
+ul,
+ol,
+h2,
+h3 {
+padding-left: 14px;
+padding-right: 14px;
+}
+.flow-arrow {
+display: none;
+}
+.causal-board,
+.priority-lanes,
+.mini-example,
+.aspect-grid {
+grid-template-columns: 1fr;
+}
+.cause-arrow {
+text-align: left;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Aspect Timeline 构建规则</h1>
+</header>
+<h1 id="aspect-timeline-构建规则">Aspect Timeline 构建规则</h1>
+<p>这个文档定义如何基于 ECB+/ESC v1.5 的事件标注，为 crisis 主题构建按
+aspect 划分的事件 timeline。</p>
+<p>核心目标是：用户只关注某个 aspect 时，不只看到该 aspect
+的事件本身，也能看到导致这些事件发生的前因，从而形成更连贯的
+storyline。</p>
+<section class="rule-visual">
+  <h2>可视化总览：从主题到 aspect timeline</h2>
+  <div class="flow-steps">
+    <div class="flow-card topic"><strong>主题</strong><span>一个 crisis topic</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card aspect"><strong>统一 Aspect</strong><span>7 个 crisis 一级 aspect</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card seed"><strong>Seed 事件</strong><span>killed / injured 等核心事件</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card cause"><strong>只补前因</strong><span>沿 PLOT_LINK 找原因</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card time"><strong>时间锚定</strong><span>TLINK / 共指 / UNKNOWN</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card merge"><strong>共指合并</strong><span>同一事件只保留一个 timeline 点</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card output"><strong>Timeline</strong><span>按时间组织的事件链</span></div>
+  </div>
+  <div class="causal-board">
+    <div class="cause-pool">
+      <span>前因事件</span>
+      <b>earthquake</b>
+      <b>air strike</b>
+      <b>shooting</b>
+    </div>
+    <div class="cause-arrow">只向 seed 补充前因 →</div>
+    <div class="seed-node">
+      <span>Aspect seed</span>
+      <b>killed / injured / wounded</b>
+    </div>
+  </div>
+</section>
+<h2 id="总体流程">总体流程</h2>
+<pre class="text"><code>主题 topic
+  → 从 7 个统一 crisis aspect 中选择一个
+  → 找到 aspect seed 事件
+  → 沿 PLOT_LINK 加入前因事件
+  → 用 TLINK / 共指继承 / UNKNOWN_TIME 做时间锚定
+  → 对共指事件做合并与冲突检查
+  → 形成 aspect timeline</code></pre>
+<h2 id="统一-crisis-aspect-与-aspect-seed">1. 统一 Crisis Aspect 与
+Aspect Seed</h2>
+<p>所有 crisis 主题统一使用同一套一级 aspect，不再为不同 crisis
+主题单独设计 aspect。</p>
+<p>完整说明见：</p>
+<p><a href="/Users/luyifeng/Documents/GitHub/EventStoryLine/yifeng_study/crisis_aspects.md">crisis_aspects.md</a></p>
+<p>对应 HTML 页面：</p>
+<p><a href="/Users/luyifeng/Documents/GitHub/EventStoryLine/yifeng_study/crisis_aspects.html">crisis_aspects.html</a></p>
+<p>统一 aspect 如下：</p>
+<table>
+<thead>
+<tr>
+<th>aspect_id</th>
+<th>一级 aspect</th>
+<th>选择事件时关注什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>事件态势与危险演化</td>
+<td>危机本身发生了什么、如何变化</td>
+</tr>
+<tr>
+<td>2</td>
+<td>人员影响与脆弱群体</td>
+<td>人受到什么影响</td>
+</tr>
+<tr>
+<td>3</td>
+<td>基础设施与生命线影响</td>
+<td>物理环境和关键服务受损情况</td>
+</tr>
+<tr>
+<td>4</td>
+<td>需求与求助</td>
+<td>灾区缺什么、谁在求助</td>
+</tr>
+<tr>
+<td>5</td>
+<td>响应、资源与恢复行动</td>
+<td>谁在做什么救援或恢复</td>
+</tr>
+<tr>
+<td>6</td>
+<td>风险沟通与公众指引</td>
+<td>给公众的警告、建议、行动指令</td>
+</tr>
+<tr>
+<td>7</td>
+<td>信息来源、证据与可信度</td>
+<td>信息来自哪里、是否可信</td>
+</tr>
+</tbody>
+</table>
+<p>先选用户关心的一级 aspect，再在该 aspect 下找到 seed 事件。</p>
+<p>例如关注“受害者/伤亡”：</p>
+<pre class="text"><code>killed / injured / death / wounded / dead</code></pre>
+<p>这些事件是 timeline 的核心节点，记为：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect_id&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect_name&quot;</span><span class="fu">:</span> <span class="st">&quot;人员影响与脆弱群体&quot;</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>同一个一级 aspect 可以覆盖不同 crisis 主题下的不同事件词。例如：</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>统一 aspect</th>
+<th>地震主题可能的 seed</th>
+<th>火灾主题可能的 seed</th>
+<th>枪击/袭击主题可能的 seed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事件态势与危险演化</td>
+<td><code>quake</code>, <code>aftershock</code>,
+<code>tremor</code></td>
+<td><code>fire</code>, <code>spread</code>, <code>burned</code></td>
+<td><code>shooting</code>, <code>attack</code>,
+<code>explosion</code></td>
+</tr>
+<tr>
+<td>人员影响与脆弱群体</td>
+<td><code>killed</code>, <code>injured</code>, <code>trapped</code></td>
+<td><code>dead</code>, <code>injured</code>, <code>evacuated</code></td>
+<td><code>shot</code>, <code>killed</code>, <code>wounded</code></td>
+</tr>
+<tr>
+<td>基础设施与生命线影响</td>
+<td><code>collapsed</code>, <code>damaged</code>,
+<code>destroyed</code></td>
+<td><code>destroyed</code>, <code>cut off</code>,
+<code>closed</code></td>
+<td><code>damaged</code>, <code>blocked</code>, <code>shut</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="causal-expansion只加入前因">2. Causal Expansion：只加入前因</h2>
+<p>对 aspect seed 事件，沿着 <code>PLOT_LINK</code> 找它的前因事件。</p>
+<p>注意：这里 <strong>只加入前因</strong>，不加入结果或后续事件。</p>
+<h3 id="precondition">2.1 <code>PRECONDITION</code></h3>
+<p>如果存在：</p>
+<pre class="text"><code>source --PLOT_LINK:PRECONDITION--&gt; target</code></pre>
+<p>则 <code>source</code> 是 <code>target</code> 的前因。</p>
+<p>如果 <code>target</code> 是当前 aspect seed，就把 <code>source</code>
+加入 timeline。</p>
+<p>例子：</p>
+<pre class="text"><code>air strike --PRECONDITION--&gt; casualties</code></pre>
+<p>如果用户关注“人员伤亡”，<code>casualties</code> 是 seed，则
+<code>air strike</code> 作为前因加入。</p>
+<p>记录为：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;PLOT_LINK_PRECONDITION&quot;</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="st">&quot;前因&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="falling_action">2.2 <code>FALLING_ACTION</code></h3>
+<p>README 中的例子说明：</p>
+<pre class="text"><code>Building collapsed after the earthquake
+
+source: collapsed
+target: earthquake
+PLOT_LINK relType=&quot;FALLING_ACTION&quot;</code></pre>
+<p>也就是说：</p>
+<pre class="text"><code>source --PLOT_LINK:FALLING_ACTION--&gt; target</code></pre>
+<p>在语义上，<code>target</code> 可以是 <code>source</code>
+的前因，<code>source</code> 是后续/结果。</p>
+<p>因此，如果 <code>source</code> 是当前 aspect seed，可以把
+<code>target</code> 加入 timeline 作为前因。</p>
+<p>例子：</p>
+<pre class="text"><code>collapsed --FALLING_ACTION--&gt; earthquake</code></pre>
+<p>如果用户关注“建筑损毁”，<code>collapsed</code> 是 seed，则
+<code>earthquake</code> 作为前因加入。</p>
+<p>记录为：</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;PLOT_LINK_FALLING_ACTION&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="st">&quot;前因&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="causestrue-caused_bytrue">2.3
+<code>CAUSES=TRUE / CAUSED_BY=TRUE</code></h3>
+<p>如果 PLOT_LINK 里有：</p>
+<pre class="text"><code>CAUSES=&quot;TRUE&quot;</code></pre>
+<p>或：</p>
+<pre class="text"><code>CAUSED_BY=&quot;TRUE&quot;</code></pre>
+<p>则说明这个前因关系更强，可以标成显式因果。</p>
+<p>记录为：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="st">&quot;explicit&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>否则记录为：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="st">&quot;plot_link&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="扩展深度">2.4 扩展深度</h3>
+<p>为了避免 timeline 被拖得太散，前因扩展最多 1 到 2 跳。</p>
+<p>建议默认：</p>
+<pre class="text"><code>max_causal_hops = 1</code></pre>
+<p>如果需要解释更完整的由来，再设为：</p>
+<pre class="text"><code>max_causal_hops = 2</code></pre>
+<p>不建议超过 2。</p>
+<h2 id="time-anchoring">3. Time Anchoring</h2>
+<p>时间锚定规则参考：</p>
+<p><a href="/Users/luyifeng/Documents/GitHub/EventStoryLine/yifeng_study/tlink_timeline_rules.md">tlink_timeline_rules.md</a></p>
+<p>当前只采用三类时间状态：</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>优先级</th>
+<th>类型</th>
+<th>时间策略</th>
+<th><code>time_source</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>有 TLINK</td>
+<td>用 TLINK 连接的时间</td>
+<td><code>TLINK</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>无 TLINK，但共指事件有时间</td>
+<td>从同一跨文档共指簇里的其他事件继承时间</td>
+<td><code>INFERRED_COREF_TIME</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>完全无法推断</td>
+<td>不给具体时间，放入未知时间池</td>
+<td><code>UNKNOWN_TIME</code></td>
+</tr>
+</tbody>
+</table>
+<p>不采用以下推断：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>不采用的策略</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同句有时间就继承</td>
+<td>容易误把句中其他事件的时间套到当前事件上</td>
+</tr>
+<tr>
+<td>邻句/上下文时间继承</td>
+<td>推断太弱，噪声较高</td>
+</tr>
+<tr>
+<td>通过 PLOT_LINK 推断具体时间</td>
+<td>PLOT_LINK 是解释/情节关系，不是时间标注</td>
+</tr>
+<tr>
+<td>报道类事件单独估计时间</td>
+<td><code>said/reported/told</code> 常常只是新闻叙述动作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-document-串联">4. Cross-document 串联</h2>
+<p>跨文档不直接靠 <code>PLOT_LINK</code>。</p>
+<p>原因是 XML 里的 <code>PLOT_LINK</code>
+主要表示单文档内部的事件情节/解释关系。</p>
+<p>跨文档串联应该靠：</p>
+<pre class="text"><code>CROSS_DOC_COREF</code></pre>
+<p>具体规则：</p>
+<ol type="1">
+<li>先用共指簇把“同一个事件”的不同 mention 合并。</li>
+<li>如果同一个共指簇里某个 mention 有 TLINK 时间，则其他无 TLINK 的
+mention 可以继承这个时间。</li>
+<li>每个文档内部再用 PLOT_LINK 给 seed 事件补前因。</li>
+<li>不把一个文档内部的 PLOT_LINK 直接当成跨文档 PLOT_LINK。</li>
+</ol>
+<h2 id="共指合并策略">5. 共指合并策略</h2>
+<p>timeline 里不应该让同一个事件反复出现很多次。</p>
+<p>因此，经过 aspect seed、前因扩展、时间锚定之后，需要再做一次
+<strong>coreference merge</strong>。</p>
+<h3 id="合并单位">5.1 合并单位</h3>
+<p>先把所有事件 mention 分成两类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有共指簇的事件</td>
+<td>按 <code>coref_cluster_id</code> 合并成一个事件点</td>
+</tr>
+<tr>
+<td>没有共指簇的事件</td>
+<td>自己单独作为一个事件点</td>
+</tr>
+</tbody>
+</table>
+<p>合并后的单位叫：</p>
+<pre class="text"><code>timeline_event_node</code></pre>
+<p>它不是某一个 XML mention，而是一个“事件点”。这个事件点下面可以挂多个
+mention。</p>
+<h3 id="代表-mention-的选择">5.2 代表 mention 的选择</h3>
+<p>每个合并后的事件点需要选一个代表 mention，用来显示在 timeline
+上。</p>
+<p>推荐优先级：</p>
+<pre class="text"><code>1. 有 TLINK 的 mention
+2. 有标准化时间 value 的 mention
+3. 原始文档顺序最靠前的 mention
+4. 句子编号 / token 位置最靠前的 mention</code></pre>
+<p>代表 mention 只负责显示，不代表其他 mention 被删除。其他 mention
+要保存在 <code>mentions</code> 列表里。</p>
+<h3 id="时间合并规则">5.3 时间合并规则</h3>
+<p>如果同一共指簇里的多个 mention 有时间，按下面策略处理：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>情况</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间完全一致</td>
+<td>合并为一个时间</td>
+</tr>
+<tr>
+<td>一个是日期，一个是同一天的具体时刻</td>
+<td>保留更具体的时间，并标记
+<code>time_merge = compatible_granularity</code></td>
+</tr>
+<tr>
+<td>多个 TLINK 时间互相矛盾</td>
+<td>不强行选一个；保留 <code>time_candidates</code>，标记
+<code>time_conflict = true</code></td>
+</tr>
+<tr>
+<td>只有部分 mention 有时间</td>
+<td>用有时间的 mention 给无时间 mention 提供共指继承</td>
+</tr>
+<tr>
+<td>全部都没有时间</td>
+<td><code>time_source = UNKNOWN_TIME</code></td>
+</tr>
+</tbody>
+</table>
+<p>时间矛盾时，保守策略是：</p>
+<pre class="text"><code>语义上仍然属于同一个共指簇；
+但排序时不要假装只有一个确定时间。</code></pre>
+<p>如果必须画在 timeline 上，可以采用两种显示方式：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>显示方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>合并为一个事件点，旁边显示“时间冲突”</td>
+<td>学习/浏览数据时</td>
+</tr>
+<tr>
+<td>按不同时间拆成多个时间候选点，但共享同一个
+<code>coref_cluster_id</code></td>
+<td>需要严格排序时</td>
+</tr>
+</tbody>
+</table>
+<h3 id="事件文本合并规则">5.4 事件文本合并规则</h3>
+<p>同一事件可能在不同文档里被写成不同词，比如：</p>
+<pre class="text"><code>quake / earthquake / tremor</code></pre>
+<p>合并后推荐保留：</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;canonical_event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text_variants&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;quake&quot;</span><span class="ot">,</span> <span class="st">&quot;earthquake&quot;</span><span class="ot">,</span> <span class="st">&quot;tremor&quot;</span><span class="ot">]</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><code>canonical_event_text</code> 可以优先用代表 mention
+的文本；如果有更常见的短词，也可以用出现次数最多的文本。</p>
+<h3 id="如果事件矛盾怎么办">5.5 如果事件矛盾怎么办</h3>
+<p>共指簇可能出现两类矛盾：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>矛盾类型</th>
+<th>例子</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间矛盾</td>
+<td>同一事件一个 mention 是 Monday，另一个是 Tuesday</td>
+<td>保留共指簇，但标记
+<code>time_conflict = true</code>，不强行合成单一时间</td>
+</tr>
+<tr>
+<td>语义矛盾</td>
+<td>一个 mention 像“爆炸”，另一个像“逮捕”</td>
+<td>标记 <code>semantic_conflict = true</code>，进入人工复核池</td>
+</tr>
+</tbody>
+</table>
+<p>原则是：</p>
+<pre class="text"><code>不要为了 timeline 好看而覆盖原始标注。
+冲突要显式暴露出来，而不是悄悄消掉。</code></pre>
+<h3 id="前因事件如果也是共指事件">5.6 前因事件如果也是共指事件</h3>
+<p>通过 PLOT_LINK
+找到前因之后，要先检查这个前因事件是否属于某个共指簇。</p>
+<p>处理顺序是：</p>
+<pre class="text"><code>PLOT_LINK 找到前因 mention
+  → 查找这个 mention 的 coref_cluster_id
+  → 如果有共指簇，把整个前因事件簇作为一个 timeline_event_node
+  → 如果没有共指簇，就把这个 mention 单独作为一个 timeline_event_node</code></pre>
+<p>这样做可以避免同一个前因在 timeline 里重复出现。</p>
+<p>例子：</p>
+<pre class="text"><code>injured 需要前因 quake
+
+文档 A: quake
+文档 B: earthquake
+文档 C: tremor
+
+如果三者共指，就合并成一个前因事件点：
+37_1ecbplus.xml-S4-quake</code></pre>
+<p>如果前因簇和 seed
+簇是同一个簇，则不再添加，避免形成自己解释自己的循环：</p>
+<pre class="text"><code>if cause_cluster_id == seed_cluster_id:
+  skip self-loop</code></pre>
+<p>PLOT_LINK 的证据不能丢。合并后仍然要保存：</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_evidence&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source_event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m8&quot;</span><span class="fu">,</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;target_event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m12&quot;</span><span class="fu">,</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_2ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;rel_type&quot;</span><span class="fu">:</span> <span class="st">&quot;PRECONDITION&quot;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="timeline-节点格式">6. Timeline 节点格式</h2>
+<p>最终 timeline 上显示的事件点建议采用：</p>
+<pre class="text"><code>document id - sentence id - event name</code></pre>
+<p>如果后面确定要按段落看，也可以换成：</p>
+<pre class="text"><code>document id - paragraph id - event name</code></pre>
+<p>推荐显示例子：</p>
+<pre class="text"><code>37_2ecbplus.xml-S4-injured
+37_1ecbplus.xml-S3-quake</code></pre>
+<p>如果是共指合并后的事件点，timeline 主标签显示代表
+mention，展开后显示所有 mention：</p>
+<pre class="text"><code>主标签：37_1ecbplus.xml-S3-quake
+展开：
+  - 37_1ecbplus.xml-S3-quake
+  - 37_2ecbplus.xml-S4-earthquake
+  - 37_4ecbplus.xml-S2-tremor</code></pre>
+<p>推荐每个节点至少保留以下字段：</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topic_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37&quot;</span><span class="fu">,</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_2ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sentence_id&quot;</span><span class="fu">:</span> <span class="st">&quot;S4&quot;</span><span class="fu">,</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;paragraph_id&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m12&quot;</span><span class="fu">,</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;injured&quot;</span><span class="fu">,</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display_label&quot;</span><span class="fu">:</span> <span class="st">&quot;37_2ecbplus.xml-S4-injured&quot;</span><span class="fu">,</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;coref_cluster_id&quot;</span><span class="fu">:</span> <span class="st">&quot;C37_E12&quot;</span><span class="fu">,</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;canonical_event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;injured&quot;</span><span class="fu">,</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text_variants&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;injured&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;人员伤亡&quot;</span><span class="fu">,</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;node_role&quot;</span><span class="fu">:</span> <span class="st">&quot;aspect_seed&quot;</span><span class="fu">,</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span><span class="fu">,</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;2013-07-02&quot;</span><span class="fu">,</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;TLINK&quot;</span><span class="fu">,</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_candidates&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;2013-07-02&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_conflict&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;semantic_conflict&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;gold&quot;</span><span class="fu">,</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mentions&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_2ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;sentence_id&quot;</span><span class="fu">:</span> <span class="st">&quot;S4&quot;</span><span class="fu">,</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m12&quot;</span><span class="fu">,</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;injured&quot;</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果是通过 PLOT_LINK 加入的前因：</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topic_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37&quot;</span><span class="fu">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_2ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sentence_id&quot;</span><span class="fu">:</span> <span class="st">&quot;S3&quot;</span><span class="fu">,</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m8&quot;</span><span class="fu">,</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display_label&quot;</span><span class="fu">:</span> <span class="st">&quot;37_2ecbplus.xml-S3-quake&quot;</span><span class="fu">,</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;coref_cluster_id&quot;</span><span class="fu">:</span> <span class="st">&quot;C37_E3&quot;</span><span class="fu">,</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;人员伤亡&quot;</span><span class="fu">,</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;node_role&quot;</span><span class="fu">:</span> <span class="st">&quot;causal_context&quot;</span><span class="fu">,</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;PLOT_LINK_PRECONDITION&quot;</span><span class="fu">,</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="st">&quot;前因&quot;</span><span class="fu">,</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="st">&quot;plot_link&quot;</span><span class="fu">,</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;2013-07-02&quot;</span><span class="fu">,</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;TLINK&quot;</span><span class="fu">,</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;gold&quot;</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果时间来自共指继承：</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topic_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37&quot;</span><span class="fu">,</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;37/37_4ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sentence_id&quot;</span><span class="fu">:</span> <span class="st">&quot;S2&quot;</span><span class="fu">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m5&quot;</span><span class="fu">,</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;quake&quot;</span><span class="fu">,</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display_label&quot;</span><span class="fu">:</span> <span class="st">&quot;37_4ecbplus.xml-S2-quake&quot;</span><span class="fu">,</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;coref_cluster_id&quot;</span><span class="fu">:</span> <span class="st">&quot;C37_E3&quot;</span><span class="fu">,</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;人员伤亡&quot;</span><span class="fu">,</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;node_role&quot;</span><span class="fu">:</span> <span class="st">&quot;causal_context&quot;</span><span class="fu">,</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;PLOT_LINK_PRECONDITION&quot;</span><span class="fu">,</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="st">&quot;前因&quot;</span><span class="fu">,</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="st">&quot;plot_link&quot;</span><span class="fu">,</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="st">&quot;2013-07-02&quot;</span><span class="fu">,</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;INFERRED_COREF_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;weak&quot;</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>如果完全无法锚定时间：</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topic_id&quot;</span><span class="fu">:</span> <span class="st">&quot;18&quot;</span><span class="fu">,</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;doc_id&quot;</span><span class="fu">:</span> <span class="st">&quot;18/18_2ecbplus.xml&quot;</span><span class="fu">,</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sentence_id&quot;</span><span class="fu">:</span> <span class="st">&quot;S8&quot;</span><span class="fu">,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="st">&quot;m11&quot;</span><span class="fu">,</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_text&quot;</span><span class="fu">:</span> <span class="st">&quot;said&quot;</span><span class="fu">,</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display_label&quot;</span><span class="fu">:</span> <span class="st">&quot;18_2ecbplus.xml-S8-said&quot;</span><span class="fu">,</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;coref_cluster_id&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aspect&quot;</span><span class="fu">:</span> <span class="st">&quot;官方通报&quot;</span><span class="fu">,</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;node_role&quot;</span><span class="fu">:</span> <span class="st">&quot;aspect_seed&quot;</span><span class="fu">,</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_source&quot;</span><span class="fu">:</span> <span class="st">&quot;ASPECT_SEED&quot;</span><span class="fu">,</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_role&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;causal_strength&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_value&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;time_source&quot;</span><span class="fu">:</span> <span class="st">&quot;UNKNOWN_TIME&quot;</span><span class="fu">,</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="排序建议">7. 排序建议</h2>
+<p>timeline 排序时，建议按以下优先级：</p>
+<pre class="text"><code>1. time_source = TLINK，且有可比较的标准化时间
+2. time_source = INFERRED_COREF_TIME，且有可比较的标准化时间
+3. time_source = UNKNOWN_TIME</code></pre>
+<p>同一天内可以再按：</p>
+<pre class="text"><code>文档顺序 → 句子编号 → token 顺序</code></pre>
+<p>未知时间节点不要强行插入具体日期，只放在该 aspect timeline
+的“未知时间”区域。</p>
+</body>
+</html>

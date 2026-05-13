@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ECB+ / ESC v1.5 标注浏览器</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div>
+            <h1>v1.5 标注浏览器</h1>
+            <p>直观查看事件、时间、故事线和跨文档共指</p>
+          </div>
+        </div>
+
+        <label class="search-box">
+          <span>搜索主题 / 文档 / 标题</span>
+          <input id="searchInput" type="search" placeholder="例如 1_1、Lohan、shooting" />
+        </label>
+
+        <div id="topicList" class="topic-list" aria-label="主题和文档列表"></div>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <div id="docKicker" class="kicker">正在加载数据</div>
+            <h2 id="docTitle">请稍等</h2>
+          </div>
+          <div class="view-actions">
+            <button class="icon-button" data-panel="topics" title="主题总览">主题</button>
+            <button class="icon-button" data-panel="timelines" title="Aspect Timeline">Timeline</button>
+            <button class="icon-button active" data-panel="overview" title="总览">总览</button>
+            <button class="icon-button" data-panel="relations" title="关系">关系</button>
+            <button class="icon-button" data-panel="raw" title="原始结构">结构</button>
+          </div>
+        </section>
+
+        <section class="legend">
+          <label><input type="checkbox" id="toggleEvents" checked /> 事件 ACTION_*</label>
+          <label><input type="checkbox" id="toggleTimes" checked /> 时间 TIME_*</label>
+          <label><input type="checkbox" id="toggleEntities" /> 实体/参与者</label>
+          <label><input type="checkbox" id="toggleCoref" checked /> 跨文档共指</label>
+          <label><input type="checkbox" id="toggleTranslation" checked /> 中文翻译</label>
+        </section>
+
+        <section id="overviewPanel" class="panel-grid">
+          <article class="reader-pane">
+            <div class="section-heading">
+              <h3>新闻正文</h3>
+              <span id="sentenceCount">0 句</span>
+            </div>
+            <div id="articleText" class="article-text"></div>
+          </article>
+
+          <aside class="detail-pane">
+            <div class="section-heading">
+              <h3>当前选择</h3>
+              <span id="selectionBadge">未选择</span>
+            </div>
+            <div id="detailBox" class="detail-box"></div>
+          </aside>
+        </section>
+
+        <section id="topicsPanel" class="topics-panel hidden">
+          <div class="section-heading">
+            <h3>主题核心内容</h3>
+            <span id="topicSummaryCount">0</span>
+          </div>
+          <div class="timeline-rule-box">
+            <h4>Aspect Timeline 构建思路</h4>
+            <div class="rule-grid">
+              <div>
+                <strong>1. 统一 crisis aspect</strong>
+                <p>所有 crisis 主题共用 7 个一级 aspect，不再为每个主题单独设计 aspect。</p>
+              </div>
+              <div>
+                <strong>2. 只补前因</strong>
+                <p>先找 aspect seed，再沿 PLOT_LINK 加入导致 seed 的前因事件，不加入后续结果。</p>
+              </div>
+              <div>
+                <strong>3. 时间与共指合并</strong>
+                <p>时间只用 TLINK、共指继承、UNKNOWN_TIME；同一共指簇合并为一个 timeline 点。</p>
+              </div>
+            </div>
+          </div>
+          <div id="topicOverview" class="topic-overview"></div>
+        </section>
+
+        <section id="relationsPanel" class="relations-panel hidden">
+          <div class="relation-column">
+            <div class="section-heading">
+              <h3>故事线 PLOT_LINK</h3>
+              <span id="plotCount">0</span>
+            </div>
+            <div id="plotLinks" class="relation-list"></div>
+          </div>
+          <div class="relation-column">
+            <div class="section-heading">
+              <h3>时间关系 TLINK</h3>
+              <span id="tlinkCount">0</span>
+            </div>
+            <div id="tlinks" class="relation-list"></div>
+          </div>
+          <div class="relation-column">
+            <div class="section-heading">
+              <h3>跨文档共指</h3>
+              <span id="corefCount">0</span>
+            </div>
+            <div id="corefLinks" class="relation-list"></div>
+          </div>
+        </section>
+
+        <section id="timelinesPanel" class="timelines-panel hidden">
+          <div class="section-heading">
+            <h3>Crisis Aspect Timelines</h3>
+            <span id="timelineSummaryCount">0</span>
+          </div>
+          <div class="timeline-note">
+            <strong>规则</strong>
+            <span>所有 crisis 主题共用 7 个一级 aspect；timeline 只补前因，时间只按 TLINK / 共指继承 / UNKNOWN_TIME，最后合并共指事件。</span>
+          </div>
+          <div id="timelineOverview" class="timeline-overview"></div>
+        </section>
+
+        <section id="rawPanel" class="raw-panel hidden">
+          <div class="stats-grid" id="statsGrid"></div>
+          <div class="split-list">
+            <div>
+              <div class="section-heading">
+                <h3>Markables</h3>
+                <span id="markableCount">0</span>
+              </div>
+              <div id="markableList" class="compact-list"></div>
+            </div>
+            <div>
+              <div class="section-heading">
+                <h3>关系类型统计</h3>
+              </div>
+              <div id="relationTypeList" class="compact-list"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="data/v15_data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,10 +1,12 @@
 \contentsline {section}{\numberline {1}先用一句大白话讲清楚}{3}{section.1}%
 \contentsline {section}{\numberline {2}把仓库想成档案馆}{3}{section.2}%
 \contentsline {section}{\numberline {3}XML 标注到底是什么}{4}{section.3}%
-\contentsline {section}{\numberline {4}三种数据版本像三本教材}{5}{section.4}%
-\contentsline {section}{\numberline {5}标准答案是怎么做出来的}{5}{section.5}%
-\contentsline {section}{\numberline {6}基线脚本像学生做题}{6}{section.6}%
-\contentsline {section}{\numberline {7}评测脚本像老师批卷}{7}{section.7}%
-\contentsline {section}{\numberline {8}建议你按这个顺序读}{7}{section.8}%
-\contentsline {section}{\numberline {9}一张总复习图}{8}{section.9}%
-\contentsline {section}{\numberline {10}打开方式}{8}{section.10}%
+\contentsline {section}{\numberline {4}事件和时间关系怎么标注}{5}{section.4}%
+\contentsline {section}{\numberline {5}共指关系：不同说法，指同一件事}{7}{section.5}%
+\contentsline {section}{\numberline {6}三种数据版本像三本教材}{8}{section.6}%
+\contentsline {section}{\numberline {7}标准答案是怎么做出来的}{8}{section.7}%
+\contentsline {section}{\numberline {8}基线脚本像学生做题}{9}{section.8}%
+\contentsline {section}{\numberline {9}评测脚本像老师批卷}{10}{section.9}%
+\contentsline {section}{\numberline {10}建议你按这个顺序读}{10}{section.10}%
+\contentsline {section}{\numberline {11}一张总复习图}{11}{section.11}%
+\contentsline {section}{\numberline {12}打开方式}{11}{section.12}%
